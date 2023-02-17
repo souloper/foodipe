@@ -43,6 +43,15 @@ import {
   Close as CloseIcon,
 } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import {
+  TwitterShareButton,
+  TwitterIcon,
+  WhatsappShareButton,
+  WhatsappIcon,
+  FacebookShareButton,
+  FacebookIcon,
+} from "react-share";
+
 
 import { img1, img2 } from "./assets";
 
@@ -134,6 +143,7 @@ const RecipeComp = (props) => {
   
   // console.log(props)
   const [open, setOpen] = useState(false);
+  const [opn, setOpn] = useState(false);
 
   const { recipeObj } = props;
   
@@ -144,12 +154,18 @@ const RecipeComp = (props) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const visit = () => {
+  
+  const hCOpn = () => {
+    setOpn(true);
+  };
 
-  }
+  const hC = () => {
+    setOpn(false);
+  };
 
   return (
     <>
+      {/* Start of Dialog Box for each dish cards */}
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
@@ -222,6 +238,47 @@ const RecipeComp = (props) => {
           </Link>
         </DialogActions>
       </BootstrapDialog>
+      {/* End of Dialog Box for each dish cards */}
+
+      {/* Start of Share Dialog Box */}
+
+      <Dialog
+        open={opn}
+        onClose={hC}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Share"}</DialogTitle>
+        <DialogContent >
+          <FacebookShareButton
+            url={recipeObj.recipe.shareAs}
+            quote={"Dummy text!"}
+          >
+            <FacebookIcon size={32} round />
+          </FacebookShareButton>
+          {"  "}
+          <WhatsappShareButton
+            url={recipeObj.recipe.shareAs}
+            quote={"Dummy text!"}
+          >
+            <WhatsappIcon size={32} round />
+          </WhatsappShareButton>
+          {"  "}
+          <TwitterShareButton
+            url={recipeObj.recipe.shareAs}
+            quote={"Dummy text!"}
+          >
+            <TwitterIcon size={32} round />
+          </TwitterShareButton>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={hC} autoFocus>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* End of Share Dialog Box */}
 
       <Grid item xs={12} sm={6} md={4} lg={3} alignItems="center">
         <Card
@@ -231,7 +288,8 @@ const RecipeComp = (props) => {
             flexDirection: "column",
           }}
           // style={{alignItems: "center"}}
-          onClick={handleClickOpen}
+          // onClick={handleClickOpen}
+          elevation={3}
         >
           <CardMedia
             component="img"
@@ -299,7 +357,7 @@ const RecipeComp = (props) => {
             <IconButton aria-label="more info" onClick={handleClickOpen}>
               <InfoRoundedIcon />
             </IconButton>
-            <IconButton aria-label="share">
+            <IconButton aria-label="share" onClick={hCOpn}>
               <ShareIcon />
             </IconButton>
             <IconButton align="right">
@@ -314,7 +372,6 @@ const RecipeComp = (props) => {
 
 function App() {
   const pages = ["Products", "Pricing", "Blog"];
-  const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -386,7 +443,7 @@ function App() {
                 textDecoration: "none",
               }}
             >
-              LOGO
+              FoodiPe
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -418,7 +475,7 @@ function App() {
                 textDecoration: "none",
               }}
             >
-              LOGO
+              FoodiPe
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
